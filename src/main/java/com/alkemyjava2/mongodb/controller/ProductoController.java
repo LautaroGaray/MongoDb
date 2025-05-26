@@ -28,7 +28,7 @@ public class ProductoController {
     @PostMapping
     public ResponseEntity<ProductoDto> crearProducto(@RequestBody ProductoDto productoDto) throws JsonProcessingException {
         System.out.println("POST - Producto DTO...");
-        System.out.println(productoDto.toJson());
+        System.out.println(productoDto.toString());
         try{
             ProductoDto creado = productoService.crearProducto(productoDto);
             return ResponseEntity.ok(creado);

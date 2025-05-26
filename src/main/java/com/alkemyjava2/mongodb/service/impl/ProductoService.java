@@ -29,7 +29,7 @@ public class ProductoService  implements IProductoService {
         Producto producto = productoMapper.toEntity(productoDto);
         Producto productoGuardado = productoRepository.save(producto);
         System.out.println("crearProducto - Service...");
-        System.out.print(producto.toJson());
+        System.out.print(producto.toString());
         return  productoMapper.toDto(productoGuardado);
     }
 
