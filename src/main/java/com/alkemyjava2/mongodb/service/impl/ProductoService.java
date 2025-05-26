@@ -1,0 +1,65 @@
+package com.alkemyjava2.mongodb.service.impl;
+
+import com.alkemyjava2.mongodb.dto.ProductoDto;
+import com.alkemyjava2.mongodb.mapper.IProductoMapper;
+import com.alkemyjava2.mongodb.model.Producto;
+import com.alkemyjava2.mongodb.repository.IProductoRepository;
+import com.alkemyjava2.mongodb.service.IProductoService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class ProductoService  implements IProductoService {
+
+    @Autowired
+    private IProductoRepository productoRepository;
+
+    @Autowired
+    private IProductoMapper productoMapper;
+
+    @Override
+    public ProductoDto crearProducto(ProductoDto productoDto) throws JsonProcessingException {
+
+        Producto producto = productoMapper.toEntity(productoDto);
+        Producto productoGuardado = productoRepository.save(producto);
+        System.out.println("crearProducto - Service...");
+        System.out.print(producto.toJson());
+        return  productoMapper.toDto(productoGuardado);
+    }
+
+    @Override
+    public ProductoDto obtenerPorId(String id) {
+
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("El producto no existe"));
+        return productoMapper.toDto(producto);
+    }
+
+    @Override
+    public List<ProductoDto> listarProductos() {
+
+       return  productoRepository.findAll()
+                .stream()
+                .map(productoMapper::toDto)
+                .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public void eliminarProducto(String id) {
+
+    }
+
+    @Override
+    public ProductoDto obtenerPorNombre(String nombre) {
+        Producto producto = productoRepository.findByNombre(nombre)
+                .orElseThrow(()-> new RuntimeException("El producto no existe"));
+        return productoMapper.toDto(producto);
+    }
+}
