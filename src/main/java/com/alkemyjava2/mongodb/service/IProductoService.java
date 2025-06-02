@@ -15,5 +15,5 @@ public interface IProductoService {
     List<ProductoDto> listarProductos();
     void eliminarProducto(String id);
     ProductoDto obtenerPorNombre(String nombre);
-
+    public ProductoDto actualizarProducto(String id, ProductoDto productoDto);
 }
